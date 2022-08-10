@@ -1,0 +1,57 @@
+.todo__background {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.todo__container {
+  min-width: 450px;
+  min-height: 600px;
+  background-color: var(--main-color);
+
+  border-radius: 15px;
+  padding: 50px;
+}
+
+h1 {
+  margin-top: 0;
+  color: white;
+  font-size: 3rem;
+  margin-bottom: 45px;
+}
+
+/* input CSS */
+.todo__input {
+  width: 100%;
+  padding: 5px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 0.1px solid var(--check-box);
+  transition: all 0.2s ease-in-out;
+}
+
+label {
+  position: relative;
+  top: -50px;
+  transition: all 0.2s ease-in-out;
+  color: var(--point-color);
+  font-weight: 500;
+}
+
+.todo__input:focus {
+  outline: none;
+  border-bottom: 2px solid var(--point-color);
+  height: 1.4rem;
+}
+
+.todo__input:focus + label {
+  top: -60px;
+  font-size: 0.9rem;
+  color: var(--font-color);
+  font-weight: 400;
+}
+
+/* input CSS 종료 */
