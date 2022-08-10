@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './TodoItems.css';
 
 function TodoItem({todo}) {
-  const [isCheck, SetIsChecked] = useState(todo.checked);
+  const [isCheck, SetIsChecked] = useState(todo.isChecked);
 
   let classNameCheck = isCheck === true ? 'checked' : 'unchecked';
 
