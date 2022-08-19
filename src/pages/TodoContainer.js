@@ -20,7 +20,7 @@ function TodoContainer() {
       <div className="todo__container">
         <h1>To Do</h1>
         <TodoInput setTodoList={setTodoList} todoList={todoList} />
-        <TodoItems todos={todoList} />
+        <TodoItems todos={todoList} todoHandler={setTodoList} />
       </div>
     </div>
   );

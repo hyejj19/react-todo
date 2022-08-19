@@ -1,28 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './TodoItems.css';
+import TodoItem from './TodoItem';
 
-function TodoItem({todo}) {
-  const [isCheck, SetIsChecked] = useState(todo.isChecked);
-
-  let classNameCheck = isCheck === true ? 'checked' : 'unchecked';
-
-  function checkHandler() {
-    SetIsChecked(!isCheck);
-  }
-
-  return (
-    <div className="todo__item">
-      <input className={'todo__checkbox'} type="checkbox" checked={isCheck} onChange={checkHandler} />
-      <span className={classNameCheck}>{todo.contents}</span>
-    </div>
-  );
-}
-
-function TodoItems({todos}) {
+function TodoItems({todos, todoHandler}) {
   return (
     <div className="todo__items">
       {todos.map(todo => {
-        return <TodoItem todo={todo} key={todo.id} />;
+        return <TodoItem todo={todo} key={todo.id} todoHandler={todoHandler} todos={todos} id={todo.id} />;
       })}
     </div>
   );
