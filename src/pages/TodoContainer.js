@@ -15,12 +15,29 @@ function TodoContainer() {
     localStorage.setItem('todoList', JSON.stringify(todoList));
   }, [todoList]);
 
+  const saveTodoList = newTodo => {
+    let targetTodo;
+    let idx = 0;
+
+    todoList.forEach((todo, i) => {
+      if (todo.id === newTodo.id) {
+        targetTodo = todo;
+        idx = i;
+      }
+    });
+
+    const copyTodoList = todoList.slice();
+    const newTodoList = copyTodoList.splice(idx, 1, newTodo);
+
+    // setTodoList(newTodoList);
+  };
+
   return (
     <div className="todo__background">
       <div className="todo__container">
         <h1>To Do</h1>
         <TodoInput setTodoList={setTodoList} todoList={todoList} />
-        <TodoItems todos={todoList} todoHandler={setTodoList} />
+        <TodoItems todoList={todoList} saveTodoList={saveTodoList} />
       </div>
     </div>
   );

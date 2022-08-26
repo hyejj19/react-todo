@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './TodoItems.css';
 import TodoItem from './TodoItem';
 
-function TodoItems({todos, todoHandler}) {
+function TodoItems({todoList, saveTodoList}) {
   return (
     <div className="todo__items">
-      {todos.map(todo => {
-        return <TodoItem todo={todo} key={todo.id} todoHandler={todoHandler} todos={todos} id={todo.id} />;
+      {todoList.map(todo => {
+        return <TodoItem key={todo.id} todo={todo} id={todo.id} saveTodoList={saveTodoList} />;
       })}
     </div>
   );

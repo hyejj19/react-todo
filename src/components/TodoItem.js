@@ -1,38 +1,28 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './TodoItems.css';
 
-function TodoItem({todos, todo, todoHandler, id}) {
-  const [isCheck, SetIsChecked] = useState(todo.isChecked);
+function TodoItem({todo, saveTodoList}) {
+  const [todoItem, setTodoItemCheck] = useState(todo);
+  const [isCheck, SetIsCheck] = useState(todo.isChecked);
 
   let classNameCheck = isCheck === true ? 'checked' : 'unchecked';
 
-  function onChangeCheckbox(e) {
-    // todos 에서 현재 todo를 찾아 그 checked 값을 변경한 todos를 만들고 새롭게 업데이트.
-    const targetId = e.target.id;
-    SetIsChecked(!isCheck);
-    let targetTodo;
-    let idx = 0;
-
-    todos.forEach((todo, i) => {
-      if (todo.id === targetId) {
-        targetTodo = todo;
-        idx = i;
-      }
-    });
-
-    targetTodo = {
-      ...todo,
-      isChecked: true,
-    };
-
-    todos.splice(idx, 1, targetTodo);
-    todoHandler(todos);
-    console.log(todos, targetTodo);
+  function onChangeCheckbox() {
+    SetIsCheck(!isCheck);
   }
+
+  useEffect(() => {
+    const newTodo = {...todo, isChecked: isCheck};
+    setTodoItemCheck(newTodo);
+  }, [isCheck, todo]);
+
+  useEffect(() => {
+    saveTodoList(todoItem);
+  }, [todoItem, saveTodoList]);
 
   return (
     <div className="todo__item">
-      <input className={'todo__checkbox'} type="checkbox" checked={todo.isChecked} onChange={onChangeCheckbox} id={id} />
+      <input className={'todo__checkbox'} type="checkbox" checked={isCheck} onChange={onChangeCheckbox} />
       <span className={classNameCheck}>{todo.contents}</span>
     </div>
   );
