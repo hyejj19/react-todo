@@ -9,27 +9,28 @@ function TodoContainer() {
   // localTodoList 불러오기 : localStorage에 저장된 내용이 없을 경우 빈 배열을 초기값으로 한다.
   const localTodoList = JSON.parse(localStorage.getItem('todoList')) || [];
   const [todoList, setTodoList] = useState(localTodoList);
+  let updatedTodoList = [];
+
+  const updateLocalStorage = () => {
+    localStorage.setItem('todoList', JSON.stringify(todoList));
+  };
 
   // 초기 마운트 될 때, todoList가 업데이트 될 때 로컬스토리지에 todoList 저장
   useEffect(() => {
-    localStorage.setItem('todoList', JSON.stringify(todoList));
+    updateLocalStorage();
   }, [todoList]);
 
+  // checkbox가 수정되었을 때 새로 업데이트하는 함수
   const saveTodoList = newTodo => {
-    let targetTodo;
     let idx = 0;
-
     todoList.forEach((todo, i) => {
       if (todo.id === newTodo.id) {
-        targetTodo = todo;
         idx = i;
       }
     });
-
-    const copyTodoList = todoList.slice();
-    const newTodoList = copyTodoList.splice(idx, 1, newTodo);
-
-    // setTodoList(newTodoList);
+    updatedTodoList = todoList.slice();
+    updatedTodoList[idx] = newTodo;
+    setTodoList(updatedTodoList);
   };
 
   return (

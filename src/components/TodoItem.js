@@ -14,11 +14,11 @@ function TodoItem({todo, saveTodoList}) {
   useEffect(() => {
     const newTodo = {...todo, isChecked: isCheck};
     setTodoItemCheck(newTodo);
-  }, [isCheck, todo]);
+  }, [isCheck]);
 
   useEffect(() => {
     saveTodoList(todoItem);
-  }, [todoItem, saveTodoList]);
+  }, [todoItem]);
 
   return (
     <div className="todo__item">
