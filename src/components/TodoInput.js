@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import uuid from 'react-uuid';
 import './TodoInput.css';
 
+// TodoInput 컴포넌트
 function TodoInput({setTodoList, todoList}) {
   const [inputValue, setInputValue] = useState('');
 

@@ -11,11 +11,13 @@ function TodoItem({todo, saveTodoList}) {
     SetIsCheck(!isCheck);
   }
 
+  // check 상태 업데이트하여 현재 todo 변경
   useEffect(() => {
     const newTodo = {...todo, isChecked: isCheck};
     setTodoItemCheck(newTodo);
   }, [isCheck]);
 
+  // check 변경되어 todo 업데이트 되었을 때, 전체 리스트 로컬스토리지 저장 함수 호출
   useEffect(() => {
     saveTodoList(todoItem);
   }, [todoItem]);

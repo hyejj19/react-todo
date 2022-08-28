@@ -11,6 +11,7 @@ function TodoContainer() {
   const [todoList, setTodoList] = useState(localTodoList);
   let updatedTodoList = [];
 
+  // 로컬스토리지 저장 함수
   const updateLocalStorage = () => {
     localStorage.setItem('todoList', JSON.stringify(todoList));
   };
