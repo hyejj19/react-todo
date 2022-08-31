@@ -1,6 +1,36 @@
 import React, {useState} from 'react';
 import uuid from 'react-uuid';
-import './TodoInput.css';
+import styled from 'styled-components';
+
+const Input = styled.input`
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  border-bottom: 0.1px solid var(--check-box);
+  transition: all 0.2s ease-in-out;
+
+  &:focus {
+    outline: none;
+    border-bottom: 2px solid var(--point-color);
+    height: 1.4rem;
+    padding-bottom: 5px;
+  }
+
+  &:focus + Label {
+    top: -60px;
+    font-size: 0.9rem;
+    color: var(--font-color);
+    font-weight: 400;
+  }
+`;
+
+const Label = styled.label`
+  position: relative;
+  top: -40px;
+  transition: all 0.2s ease-in-out;
+  color: var(--point-color);
+  font-weight: 500;
+`;
 
 // TodoInput 컴포넌트
 function TodoInput({setTodoList, todoList}) {
@@ -25,8 +55,8 @@ function TodoInput({setTodoList, todoList}) {
 
   return (
     <>
-      <input className="todo__input" type="text" name="inputValue" onChange={onChangeInput} value={inputValue} onKeyUp={onKeyUpEnter} />
-      <label htmlFor="inputValue">Notes...</label>
+      <Input className="todo__input" type="text" name="inputValue" onChange={onChangeInput} value={inputValue} onKeyUp={onKeyUpEnter} />
+      <Label htmlFor="inputValue">Notes...</Label>
     </>
   );
 }

@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import './TodoItems.css';
+import styled from 'styled-components';
+
+const StyledDiv = styled.div`
+  padding: 8px 0px;
+  display: flex;
+`;
 
 function TodoItem({todo, saveTodoList}) {
   const [todoItem, setTodoItemCheck] = useState(todo);
@@ -23,10 +29,10 @@ function TodoItem({todo, saveTodoList}) {
   }, [todoItem]);
 
   return (
-    <div className="todo__item">
+    <StyledDiv>
       <input className={'todo__checkbox'} type="checkbox" checked={isCheck} onChange={onChangeCheckbox} />
       <span className={classNameCheck}>{todo.contents}</span>
-    </div>
+    </StyledDiv>
   );
 }
 
