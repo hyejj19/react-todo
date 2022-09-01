@@ -1,13 +1,44 @@
 import React, {useState, useEffect} from 'react';
 import './TodoItems.css';
 import styled from 'styled-components';
+import {FaTrash, FaTrashRestore} from 'react-icons/fa';
 
-const StyledDiv = styled.div`
-  padding: 8px 0px;
+const Remove = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  display: none;
+  padding-right: 10px;
+  &:hover {
+    color: black;
+  }
 `;
 
-function TodoItem({todo, saveTodoList}) {
+const TodoItemContainer = styled.div`
+  padding: 20px 0px 20px 10px;
+  display: flex;
+  border-radius: 10px;
+
+  &:hover {
+    background-color: var(--hover-color);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    ${Remove} {
+      display: initial;
+    }
+  }
+
+  > .todo__checkbox {
+  }
+
+  > span {
+    font-size: 1.1rem;
+    width: 100%;
+  }
+`;
+
+function TodoItem({todo, saveTodoList, setTodoList, todoList}) {
   const [todoItem, setTodoItemCheck] = useState(todo);
   const [isCheck, SetIsCheck] = useState(todo.isChecked);
 
@@ -28,11 +59,19 @@ function TodoItem({todo, saveTodoList}) {
     saveTodoList(todoItem);
   }, [todoItem]);
 
+  const deleteTodoHandler = () => {
+    const newTodoList = todoList.filter(el => el.id !== todo.id);
+    setTodoList(newTodoList);
+  };
+
   return (
-    <StyledDiv>
+    <TodoItemContainer>
       <input className={'todo__checkbox'} type="checkbox" checked={isCheck} onChange={onChangeCheckbox} />
       <span className={classNameCheck}>{todo.contents}</span>
-    </StyledDiv>
+      <Remove onClick={deleteTodoHandler}>
+        <FaTrash style={{fill: '#ff6b6b'}} />
+      </Remove>
+    </TodoItemContainer>
   );
 }
 
