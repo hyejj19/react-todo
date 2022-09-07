@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './global-style.css';
 import TodoApp from './pages/TodoApp';
 
 import {store} from './app/store';

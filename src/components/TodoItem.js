@@ -44,6 +44,10 @@ const TodoItemContainer = styled.div`
   > span {
     font-size: 1.1rem;
     width: 100%;
+    &.checked {
+      color: gray;
+      text-decoration: line-through;
+    }
   }
 `;
 
