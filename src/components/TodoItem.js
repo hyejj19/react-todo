@@ -1,5 +1,4 @@
 import React from 'react';
-import './TodoItems.css';
 import styled from 'styled-components';
 import {FaTrash, FaTrashRestore} from 'react-icons/fa';
 import {useSelector, useDispatch} from 'react-redux';
@@ -15,11 +14,16 @@ const Remove = styled.div`
   &:hover {
     color: black;
   }
+  > i {
+    font-size: 16px;
+    color: white;
+  }
 `;
 
 const TodoItemContainer = styled.div`
   padding: 20px 0px 20px 10px;
   display: flex;
+  align-items: center;
   border-radius: 10px;
 
   &:hover {
@@ -32,6 +36,9 @@ const TodoItemContainer = styled.div`
   }
 
   > .todo__checkbox {
+    margin-right: 1rem;
+    min-width: 1.1rem;
+    min-height: 1.1rem;
   }
 
   > span {
