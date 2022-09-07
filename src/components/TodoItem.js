@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import './TodoItems.css';
 import styled from 'styled-components';
 import {FaTrash, FaTrashRestore} from 'react-icons/fa';
+import {useSelector, useDispatch} from 'react-redux';
+import {toggleCheck, remove} from '../slice/todoSlice';
 
 const Remove = styled.div`
   display: flex;
@@ -38,36 +40,27 @@ const TodoItemContainer = styled.div`
   }
 `;
 
-function TodoItem({todo, saveTodoList, setTodoList, todoList}) {
-  const [todoItem, setTodoItemCheck] = useState(todo);
-  const [isCheck, SetIsCheck] = useState(todo.isChecked);
+function TodoItem({id}) {
+  const dispatch = useDispatch();
 
+  const todoItem = useSelector(state => state.todoList).find(todo => todo.id === id);
+
+  let isCheck = todoItem.isCheck;
   let classNameCheck = isCheck === true ? 'checked' : 'unchecked';
 
   function onChangeCheckbox() {
-    SetIsCheck(!isCheck);
+    isCheck = !isCheck;
+    dispatch(toggleCheck({id, isCheck}));
   }
 
-  // check 상태 업데이트하여 현재 todo 변경
-  useEffect(() => {
-    const newTodo = {...todo, isChecked: isCheck};
-    setTodoItemCheck(newTodo);
-  }, [isCheck]);
-
-  // check 변경되어 todo 업데이트 되었을 때, 전체 리스트 로컬스토리지 저장 함수 호출
-  useEffect(() => {
-    saveTodoList(todoItem);
-  }, [todoItem]);
-
   const deleteTodoHandler = () => {
-    const newTodoList = todoList.filter(el => el.id !== todo.id);
-    setTodoList(newTodoList);
+    dispatch(remove(id));
   };
 
   return (
     <TodoItemContainer>
       <input className={'todo__checkbox'} type="checkbox" checked={isCheck} onChange={onChangeCheckbox} />
-      <span className={classNameCheck}>{todo.contents}</span>
+      <span className={classNameCheck}>{todoItem.contents}</span>
       <Remove onClick={deleteTodoHandler}>
         <FaTrash style={{fill: '#ff6b6b'}} />
       </Remove>

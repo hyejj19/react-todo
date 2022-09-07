@@ -2,7 +2,10 @@ import React, {useState} from 'react';
 import uuid from 'react-uuid';
 import styled from 'styled-components';
 
-const Input = styled.input`
+import {useSelector, useDispatch} from 'react-redux';
+import {create, remove} from '../slice/todoSlice';
+
+const InputEl = styled.input`
   width: 100%;
   background-color: transparent;
   border: none;
@@ -33,29 +36,24 @@ const Label = styled.label`
 `;
 
 // TodoInput 컴포넌트
-function TodoInput({setTodoList, todoList}) {
+function TodoInput() {
+  const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState('');
 
   const onChangeInput = e => {
     setInputValue(e.target.value);
   };
 
-  // TodoContainer 의 todoList state에 새로 생성한 todo 추가하여 상태 업데이트
   const onKeyUpEnter = e => {
     if (e.key === 'Enter') {
-      const todo = {
-        id: uuid(),
-        contents: inputValue,
-        isChecked: false,
-      };
-      setTodoList([...todoList, todo]);
+      dispatch(create(inputValue));
       setInputValue('');
     }
   };
 
   return (
     <>
-      <Input className="todo__input" type="text" name="inputValue" onChange={onChangeInput} value={inputValue} onKeyUp={onKeyUpEnter} />
+      <InputEl type="text" name="inputValue" onChange={onChangeInput} value={inputValue} onKeyUp={onKeyUpEnter} />
       <Label htmlFor="inputValue">Notes...</Label>
     </>
   );
