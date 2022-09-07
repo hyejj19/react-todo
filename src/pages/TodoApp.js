@@ -3,8 +3,9 @@ import styled from 'styled-components';
 
 import TodoInput from '../components/TodoInput';
 import TodoItems from '../components/TodoItems';
+import GlobalStyle from '../Globalstyle';
 
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const TodoBackground = styled.div`
   width: 100vw;
@@ -39,8 +40,6 @@ const TodoContainer = styled.div`
 `;
 
 function TodoApp() {
-  const dispatch = useDispatch();
-
   // store에서 가져온 todoList state
   const todoList = useSelector(state => state.todoList);
 
@@ -55,13 +54,16 @@ function TodoApp() {
   }, [todoList]);
 
   return (
-    <TodoBackground>
-      <TodoContainer>
-        <h1>To Do</h1>
-        <TodoInput />
-        <TodoItems />
-      </TodoContainer>
-    </TodoBackground>
+    <>
+      <GlobalStyle />
+      <TodoBackground>
+        <TodoContainer>
+          <h1>To Do</h1>
+          <TodoInput />
+          <TodoItems />
+        </TodoContainer>
+      </TodoBackground>
+    </>
   );
 }
 

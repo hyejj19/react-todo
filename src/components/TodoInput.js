@@ -45,9 +45,11 @@ function TodoInput() {
   };
 
   const onKeyUpEnter = e => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && inputValue) {
       dispatch(create(inputValue));
       setInputValue('');
+    } else if (!inputValue) {
+      alert('내용을 입력해 주세요!');
     }
   };
 
