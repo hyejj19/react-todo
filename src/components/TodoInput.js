@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
-import uuid from 'react-uuid';
 import styled from 'styled-components';
 
-import {useSelector, useDispatch} from 'react-redux';
-import {create, remove} from '../slice/todoSlice';
+import {useDispatch} from 'react-redux';
+import {create} from '../slice/todoSlice';
 
 const InputEl = styled.input`
   width: 100%;
@@ -55,7 +54,13 @@ function TodoInput() {
 
   return (
     <>
-      <InputEl type="text" name="inputValue" onChange={onChangeInput} value={inputValue} onKeyUp={onKeyUpEnter} />
+      <InputEl
+        type="text"
+        name="inputValue"
+        onChange={onChangeInput}
+        value={inputValue}
+        onKeyUp={onKeyUpEnter}
+      />
       <Label htmlFor="inputValue">Notes...</Label>
     </>
   );

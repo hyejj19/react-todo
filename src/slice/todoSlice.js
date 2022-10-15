@@ -1,4 +1,4 @@
-import {createSlice, current} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 import uuid from 'react-uuid';
 
 // todoList 초기값 : localStorage에 저장된 내용이 없을 경우 빈 배열을 초기값으로 한다.
@@ -21,7 +21,9 @@ export const todoSlice = createSlice({
       }),
     toggleCheck: (state, action) =>
       state.map(todo => {
-        return todo.id === action.payload.id ? {...todo, isCheck: action.payload.isCheck} : todo;
+        return todo.id === action.payload.id
+          ? {...todo, isCheck: action.payload.isCheck}
+          : todo;
       }),
   },
 });

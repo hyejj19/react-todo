@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {FaTrash, FaTrashRestore} from 'react-icons/fa';
+import {FaTrash} from 'react-icons/fa';
 import {useSelector, useDispatch} from 'react-redux';
 import {toggleCheck, remove} from '../slice/todoSlice';
 
@@ -54,7 +54,9 @@ const TodoItemContainer = styled.div`
 function TodoItem({id}) {
   const dispatch = useDispatch();
 
-  const todoItem = useSelector(state => state.todoList).find(todo => todo.id === id);
+  const todoItem = useSelector(state => state.todoList).find(
+    todo => todo.id === id,
+  );
 
   let isCheck = todoItem.isCheck;
   let classNameCheck = isCheck === true ? 'checked' : 'unchecked';
@@ -70,7 +72,12 @@ function TodoItem({id}) {
 
   return (
     <TodoItemContainer>
-      <input className={'todo__checkbox'} type="checkbox" checked={isCheck} onChange={onChangeCheckbox} />
+      <input
+        className={'todo__checkbox'}
+        type="checkbox"
+        checked={isCheck}
+        onChange={onChangeCheckbox}
+      />
       <span className={classNameCheck}>{todoItem.contents}</span>
       <Remove onClick={deleteTodoHandler}>
         <FaTrash style={{fill: '#ff6b6b'}} />
