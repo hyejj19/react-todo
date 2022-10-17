@@ -1,11 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import TodoInput from '../components/TodoInput';
 import TodoItems from '../components/TodoItems';
 import GlobalStyle from '../Globalstyle';
-
-import {useSelector} from 'react-redux';
 
 const TodoBackground = styled.div`
   width: 100vw;
@@ -40,19 +38,6 @@ const TodoContainer = styled.div`
 `;
 
 function TodoApp() {
-  // store에서 가져온 todoList state
-  const todoList = useSelector(state => state.todoList);
-
-  // 로컬스토리지 저장 함수
-  const updateLocalStorage = () => {
-    localStorage.setItem('todoList', JSON.stringify(todoList));
-  };
-
-  // 초기 마운트 될 때, todoList가 업데이트 될 때 로컬스토리지에 todoList 저장
-  useEffect(() => {
-    updateLocalStorage();
-  }, [todoList]);
-
   return (
     <>
       <GlobalStyle />

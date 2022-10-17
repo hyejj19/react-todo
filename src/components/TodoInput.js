@@ -1,9 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 
-import {useDispatch} from 'react-redux';
-import {create} from '../slice/todoSlice';
-
 const InputEl = styled.input`
   width: 100%;
   background-color: transparent;
@@ -36,7 +33,6 @@ const Label = styled.label`
 
 // TodoInput 컴포넌트
 function TodoInput() {
-  const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState('');
 
   const onChangeInput = e => {
@@ -45,10 +41,18 @@ function TodoInput() {
 
   const onKeyUpEnter = e => {
     if (e.key === 'Enter' && inputValue) {
-      dispatch(create(inputValue));
+      fetch('http://localhost:4000/todos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: inputValue,
+          isChecked: false,
+        }),
+      });
       setInputValue('');
-    } else if (!inputValue) {
-      alert('내용을 입력해 주세요!');
+      window.location.reload();
     }
   };
 

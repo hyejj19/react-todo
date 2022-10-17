@@ -1,0 +1,44 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "contents": "리액트 공부하기",
+      "isChecked": true
+    },
+    {
+      "id": 2,
+      "contents": "타입스크립트 공부하기",
+      "isChecked": false
+    },
+    {
+      "contents": "안녕",
+      "isChecked": false,
+      "id": 3
+    },
+    {
+      "contents": "생성하기 완료",
+      "isChecked": false,
+      "id": 4
+    },
+    {
+      "contents": "굿굿 잘 되고 있구만 ^^",
+      "isChecked": false,
+      "id": 5
+    },
+    {
+      "contents": "나중에 리팩토링 하면 되니깐 괜찮아 흑...",
+      "isChecked": false,
+      "id": 6
+    },
+    {
+      "contents": "고칠게 많네.. 일단 입력 후 엔터 누르면 계속 입력하도록 하고 싶은데...",
+      "isChecked": false,
+      "id": 7
+    },
+    {
+      "contents": "데이터를 여러번 저장해서 state에 넣은 다음에 어떤 것을 기점으로 한번에 post 되도록 하는게 좋을  듯 하다. 그래야 좀 더 매끄러운 사용감이 나오겠어.",
+      "isChecked": false,
+      "id": 8
+    }
+  ]
+}

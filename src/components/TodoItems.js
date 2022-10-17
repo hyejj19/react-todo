@@ -1,7 +1,7 @@
 import React from 'react';
 import TodoItem from './TodoItem';
 import styled from 'styled-components';
-import {useSelector} from 'react-redux';
+import {GetTodo} from '../libs/useActions';
 
 const TodoItemsContainer = styled.div`
   margin-top: 20px;
@@ -21,11 +21,11 @@ const TodoItemsContainer = styled.div`
 `;
 
 function TodoItems() {
-  const todoList = useSelector(state => state.todoList);
+  const todoList = GetTodo();
   return (
     <TodoItemsContainer>
-      {todoList.map(todo => {
-        return <TodoItem key={todo.id} id={todo.id} />;
+      {todoList?.map(todo => {
+        return <TodoItem key={todo.id} todo={todo} />;
       })}
     </TodoItemsContainer>
   );

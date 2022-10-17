@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import {FaTrash} from 'react-icons/fa';
-import {useSelector, useDispatch} from 'react-redux';
-import {toggleCheck, remove} from '../slice/todoSlice';
 
 const Remove = styled.div`
   display: flex;
@@ -51,39 +49,37 @@ const TodoItemContainer = styled.div`
   }
 `;
 
-function TodoItem({id}) {
-  const dispatch = useDispatch();
-
-  const todoItem = useSelector(state => state.todoList).find(
-    todo => todo.id === id,
-  );
-
-  let isCheck = todoItem.isCheck;
-  let classNameCheck = isCheck === true ? 'checked' : 'unchecked';
-
-  function onChangeCheckbox() {
+function TodoItem({todo}) {
+  let isCheck = todo.isChecked;
+  const onChangeCheckbox = () => {
     isCheck = !isCheck;
-    dispatch(toggleCheck({id, isCheck}));
-  }
+    fetch('http://localhost:4000/todos', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        contents: todo.contents,
+        isChecked: isCheck,
+      }),
+    });
+    const deleteTodoHandler = () => {};
 
-  const deleteTodoHandler = () => {
-    dispatch(remove(id));
+    return (
+      <TodoItemContainer>
+        <input
+          className={'todo__checkbox'}
+          type="checkbox"
+          checked={isCheck}
+          onChange={onChangeCheckbox}
+        />
+        <span>{todo.contents}</span>
+        <Remove onClick={deleteTodoHandler}>
+          <FaTrash style={{fill: '#ff6b6b'}} />
+        </Remove>
+      </TodoItemContainer>
+    );
   };
-
-  return (
-    <TodoItemContainer>
-      <input
-        className={'todo__checkbox'}
-        type="checkbox"
-        checked={isCheck}
-        onChange={onChangeCheckbox}
-      />
-      <span className={classNameCheck}>{todoItem.contents}</span>
-      <Remove onClick={deleteTodoHandler}>
-        <FaTrash style={{fill: '#ff6b6b'}} />
-      </Remove>
-    </TodoItemContainer>
-  );
 }
 
 export default TodoItem;
