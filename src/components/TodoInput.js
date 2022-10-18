@@ -31,8 +31,10 @@ const Label = styled.label`
   font-weight: 500;
 `;
 
+const url = process.env.REACT_APP_BASE_URL;
+
 // TodoInput 컴포넌트
-function TodoInput() {
+function TodoInput({todoList, setTodoList}) {
   const [inputValue, setInputValue] = useState('');
 
   const onChangeInput = e => {
@@ -41,7 +43,7 @@ function TodoInput() {
 
   const onKeyUpEnter = e => {
     if (e.key === 'Enter' && inputValue) {
-      fetch('http://localhost:4000/todos', {
+      fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,9 +52,10 @@ function TodoInput() {
           contents: inputValue,
           isChecked: false,
         }),
-      });
+      })
+        .then(res => res.json())
+        .then(res => setTodoList([...todoList, res]));
       setInputValue('');
-      window.location.reload();
     }
   };
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import TodoItem from './TodoItem';
 import styled from 'styled-components';
-import {GetTodo} from '../libs/useActions';
 
 const TodoItemsContainer = styled.div`
   margin-top: 20px;
@@ -20,12 +19,18 @@ const TodoItemsContainer = styled.div`
   }
 `;
 
-function TodoItems() {
-  const todoList = GetTodo();
+function TodoItems({todoList, setTodoList}) {
   return (
     <TodoItemsContainer>
-      {todoList?.map(todo => {
-        return <TodoItem key={todo.id} todo={todo} />;
+      {todoList.map(todo => {
+        return (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            setTodoList={setTodoList}
+            todoList={todoList}
+          />
+        );
       })}
     </TodoItemsContainer>
   );

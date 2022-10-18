@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import {useState} from 'react';
 
-const url = 'http://localhost:4000/todos';
+const url = process.env.REACT_APP_BASE_URL;
 
 export function GetTodo() {
   const [data, setData] = useState([]);
@@ -13,5 +13,5 @@ export function GetTodo() {
       .catch(err => console.log(err));
   }, []);
 
-  return data;
+  return [data, setData];
 }

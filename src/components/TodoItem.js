@@ -1,6 +1,10 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import styled from 'styled-components';
 import {FaTrash} from 'react-icons/fa';
+import {useState} from 'react';
+import {useEffect} from 'react';
+
+const url = process.env.REACT_APP_BASE_URL;
 
 const Remove = styled.div`
   display: flex;
@@ -49,12 +53,53 @@ const TodoItemContainer = styled.div`
   }
 `;
 
-function TodoItem({todo}) {
+const InputEdit = styled.input`
+  display: inline-block;
+  width: 80%;
+  height: 40px;
+  color: black;
+`;
+
+function MyInput({onBlur, todoContents, setTodoContents, isEditMode}) {
+  const [inputValue, setInputValue] = useState(todoContents);
+
+  const inputEl = useRef(null);
+
+  useEffect(() => {
+    inputEl.current.focus();
+  }, []);
+
+  const onchangeValue = e => {
+    setInputValue(e.target.value);
+  };
+
+  // inputValue 변경시마다 TodoContents 상태값 변경
+  useEffect(() => {
+    setTodoContents(inputValue);
+  }, [inputValue, setTodoContents]);
+
+  return (
+    <InputEdit
+      value={inputValue}
+      ref={inputEl}
+      onBlur={onBlur}
+      onChange={onchangeValue}
+      onKeyUp={e => (e.key === 'Enter' ? inputEl.current.blur() : null)}
+    />
+  );
+}
+
+function TodoItem({todo, setTodoList, todoList}) {
+  const [todoContents, setTodoContents] = useState(todo.contents);
+
+  // 체크박스 체크 여부
   let isCheck = todo.isChecked;
+
+  // 체크박스 제어
   const onChangeCheckbox = () => {
     isCheck = !isCheck;
-    fetch('http://localhost:4000/todos', {
-      method: 'PUT',
+    fetch(`url/${todo.id}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -63,23 +108,68 @@ function TodoItem({todo}) {
         isChecked: isCheck,
       }),
     });
-    const deleteTodoHandler = () => {};
-
-    return (
-      <TodoItemContainer>
-        <input
-          className={'todo__checkbox'}
-          type="checkbox"
-          checked={isCheck}
-          onChange={onChangeCheckbox}
-        />
-        <span>{todo.contents}</span>
-        <Remove onClick={deleteTodoHandler}>
-          <FaTrash style={{fill: '#ff6b6b'}} />
-        </Remove>
-      </TodoItemContainer>
-    );
   };
+  // 투두 삭제
+  const deleteTodoHandler = () => {
+    const newTodoList = todoList.slice().filter(el => el.id !== todo.id);
+    fetch(`${url}/${todo.id}`, {
+      method: 'DELETE',
+    }).then(setTodoList(newTodoList));
+  };
+
+  // Edit 모드 제어 상태
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  // 클릭시 EditMode 진입
+  const handleClickEditMode = () => {
+    setIsEditMode(true);
+  };
+
+  // Blur시 EditMode 해제
+  const handleBlurEditMode = () => {
+    setIsEditMode(false);
+
+    const newTodoList = todoList.slice().map(el => {
+      return el.id === todo.id ? {...el, contents: todoContents} : el;
+    });
+    fetch(`${url}/${todo.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        contents: todoContents,
+      }),
+    })
+      .then(res => res.json())
+      .then(res => setTodoList(newTodoList));
+  };
+
+  return (
+    <TodoItemContainer>
+      {isEditMode ? (
+        <MyInput
+          onBlur={handleBlurEditMode}
+          todoContents={todoContents}
+          setTodoContents={setTodoContents}
+          isEditMode={isEditMode}
+        />
+      ) : (
+        <>
+          <input
+            className={'todo__checkbox'}
+            type="checkbox"
+            checked={isCheck}
+            onChange={onChangeCheckbox}
+          />
+          <span onClick={handleClickEditMode}>{todo.contents}</span>
+          <Remove onClick={deleteTodoHandler}>
+            <FaTrash style={{fill: '#ff6b6b'}} />
+          </Remove>
+        </>
+      )}
+    </TodoItemContainer>
+  );
 }
 
 export default TodoItem;
