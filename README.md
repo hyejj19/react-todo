@@ -8,9 +8,10 @@
 
 version_1.0에서는 redux-toolkit을 활용해 상태를 관리하고, localStorage에 저장하여 관리했습니다.
 
-### 💜 배포 링크
+### 💜 링크
 
 - [배포 링크](https://hyejj19.github.io/react-todo/)
+- [회고](https://friedegg556.tistory.com/227)
 
 ### 💜 사용한 기술
 
