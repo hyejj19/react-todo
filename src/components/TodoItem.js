@@ -60,7 +60,7 @@ const InputEdit = styled.input`
   color: black;
 `;
 
-function MyInput({onBlur, todoContents, setTodoContents, isEditMode}) {
+function MyInput({onBlur, todoContents, setTodoContents}) {
   const [inputValue, setInputValue] = useState(todoContents);
 
   const inputEl = useRef(null);
@@ -92,23 +92,29 @@ function MyInput({onBlur, todoContents, setTodoContents, isEditMode}) {
 function TodoItem({todo, setTodoList, todoList}) {
   const [todoContents, setTodoContents] = useState(todo.contents);
 
+  const [isChecked, setIsChecked] = useState(todo.isChecked);
   // 체크박스 체크 여부
-  let isCheck = todo.isChecked;
+  let classNameCheck = isChecked === true ? 'checked' : 'unchecked';
 
   // 체크박스 제어
   const onChangeCheckbox = () => {
-    isCheck = !isCheck;
-    fetch(`url/${todo.id}`, {
+    setIsChecked(!isChecked);
+  };
+
+  // 체크박스 변경시 fetch 요청
+  useEffect(() => {
+    fetch(`${url}/${todo.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         contents: todo.contents,
-        isChecked: isCheck,
+        isChecked: isChecked,
       }),
     });
-  };
+  }, [isChecked]);
+
   // 투두 삭제
   const deleteTodoHandler = () => {
     const newTodoList = todoList.slice().filter(el => el.id !== todo.id);
@@ -152,17 +158,18 @@ function TodoItem({todo, setTodoList, todoList}) {
           onBlur={handleBlurEditMode}
           todoContents={todoContents}
           setTodoContents={setTodoContents}
-          isEditMode={isEditMode}
         />
       ) : (
         <>
           <input
             className={'todo__checkbox'}
             type="checkbox"
-            checked={isCheck}
+            checked={isChecked}
             onChange={onChangeCheckbox}
           />
-          <span onClick={handleClickEditMode}>{todo.contents}</span>
+          <span onClick={handleClickEditMode} className={classNameCheck}>
+            {todo.contents}
+          </span>
           <Remove onClick={deleteTodoHandler}>
             <FaTrash style={{fill: '#ff6b6b'}} />
           </Remove>
